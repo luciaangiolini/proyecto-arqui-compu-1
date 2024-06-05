@@ -1,0 +1,20 @@
+		MOV		r0, #3
+		MOV		SP, #pilaptr
+		BL		Retardo
+		end
+		
+Retardo
+		STMFD	SP!,{r4} 	
+		MOV		r4, r0	
+while                         
+		
+		SUBS		r4,r4,#1	
+		BNE		while	
+		LDMFD	SP!, {r4} 
+		MOV		PC,LR
+		
+		
+		
+		
+pila		FILL		40
+pilaptr	DCB		1
