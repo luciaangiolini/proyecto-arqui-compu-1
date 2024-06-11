@@ -1,23 +1,23 @@
 			MOV		r0, #2 
 			MOV		SP, #pilaptr
-			BL		BateriaBaja
+			BL		bateriaDescargandose
 			end
 			
-BateriaBaja
+bateriaDescargandose
 			STMFD	SP!, {r4, r5, r6, r7, LR}
 			MOV		r6, r0 
 			MOV		r4, #0xFF 
 			MOV		r5, #8 
-ForBateriaBaja
+ForbateriaDescargandose
 			MOV		r0, r4 
 			BL		Display
 			MOV		r0, r6 
 			BL		Retardo
-			;		MOV r0, "cls" por si la funcion system usara parámetros
+			;		MOV r0, "cls" por si la funcion system usara parametros
 			BL		SystemCLS
 			MOV		r4, r4, LSL #1 
 			SUBS		r5, r5, #1
-			BNE		ForBateriaBaja
+			BNE		ForbateriaDescargandose
 			BEQ		Termino
 			
 			

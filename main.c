@@ -3,13 +3,14 @@
 #include <string.h>
 #include <conio.h>
 #include <Windows.h>
+#include "EasyPIO.h"
+
 
 void retardo(unsigned long int); // da tiempo entre las luces
 void simular_led(unsigned char);
 int fvelocidad(unsigned long int); // aumenta o disminuye velocidad
 
 void auto_fantastico(unsigned long int);
-void carrera(unsigned long int);
 void choque(unsigned long int);
 void bateriaDescargandose(unsigned long int);
 void chocaLos5(unsigned long int);
@@ -76,11 +77,10 @@ int main()
     {
         
             printf("\n1- Auto fantastico\n");
-            printf("2- La carrera\n");
-            printf("3- El choque\n");
-            printf("4- Bateria descargandose\n");
-            printf("5- Choca los 5\n");
-            printf("6- Salir\n");
+            printf("2- El choque\n");
+            printf("3- Bateria descargandose\n");
+            printf("4- Choca los 5\n");
+            printf("5- Salir\n");
 
             printf("\nIngrese la opcion que desee visualizar: ");
             scanf("%d", &opcion);
@@ -100,29 +100,23 @@ int main()
                 break;
             case 2:
                 system("cls");
-                carrera(velocidad);
+                choque(velocidad);
                 opcion = 0;
                 velocidad = velocidadAux;
                 break;
             case 3:
                 system("cls");
-                choque(velocidad);
+                bateriaDescargandose(velocidad);
                 opcion = 0;
                 velocidad = velocidadAux;
                 break;
             case 4:
                 system("cls");
-                bateriaDescargandose(velocidad);
-                opcion = 0;
-                velocidad = velocidadAux;
-                break;
-            case 5:
-                system("cls");
                 chocaLos5(velocidad);
                 opcion = 0;
                 velocidad = velocidadAux;
                 break;
-            case 6:
+            case 5:
                 system("cls");
                 printf("Sistema apagado");
                 break;
@@ -139,8 +133,10 @@ int main()
 
 void retardo(unsigned long int a)
 {
-    while (a)
+    while (a){
         a--;
+    }
+    
 }
 
 void simular_led(unsigned char dato)
@@ -158,6 +154,7 @@ void simular_led(unsigned char dato)
     }
 }
 
+//incluir esta funcion dentro del retardo
 int fvelocidad(unsigned long int velocidad)
 {
     if ((velocidad - 4800000) > 9600000)
@@ -176,6 +173,7 @@ int fvelocidad(unsigned long int velocidad)
 
 void auto_fantastico(unsigned long int velocidad)
 {
+    //por algoritmo
     unsigned int dato;
     while (1)
     {
@@ -189,6 +187,7 @@ void auto_fantastico(unsigned long int velocidad)
             retardo(velocidad);
             system("cls");
             dato = dato >> 1;
+            //cambiar de lugar el aceleracion/desaceleracion
             velocidad = fvelocidad(velocidad);
             if (GetAsyncKeyState(VK_ESCAPE) & 0x0001)
             {
@@ -214,32 +213,9 @@ void auto_fantastico(unsigned long int velocidad)
     }
 }
 
-void carrera(unsigned long int velocidad)
-{
-    unsigned char tabla[] = {
-        0x80, 0x80, 0x40, 0x40, 0x20, 0x20, 0x10, 0x10, 0x88, 0x48, 0x24, 0x14, 0x0A, 0x06, 0x03, 0x01};
-
-    while (1)
-    {
-        for (int i = 0; i < 16; ++i)
-        {
-            printf("Presione ESC para regresar al menu principal\n");
-            printf("Pulse la flecha para arriba para incrementar la velocidad, o para abajo para disminuirla\n");
-            printf("Demora: %lu\n", velocidad);
-            simular_led(tabla[i]);
-            retardo(velocidad);
-            system("cls");
-            velocidad = fvelocidad(velocidad);
-            if (GetAsyncKeyState(VK_ESCAPE) & 0x0001)
-            {
-                return;
-            }
-        }
-    }
-}
-
 void choque(unsigned long int velocidad)
 {
+    //por tabla
     unsigned char tabla[] = {
         0x81, 0x42, 0x24, 0x18, 0x18, 0x24, 0x42};
 
@@ -265,6 +241,7 @@ void choque(unsigned long int velocidad)
 
 void bateriaDescargandose(unsigned long int velocidad)
 {
+    //por algoritmo
     unsigned int dato = 0xFF;
     while (1)
     {
@@ -289,6 +266,7 @@ void bateriaDescargandose(unsigned long int velocidad)
 
 void chocaLos5(unsigned long int velocidad)
 {
+    //por algoritmo
     unsigned char tabla[] = {
         0x00, 0x81, 0xC3, 0xE7, 0xFF, 0xE7, 0xC3, 0x81};
     while (1)
